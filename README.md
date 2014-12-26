@@ -1,0 +1,4 @@
+collector
+=========
+
+Data collection component
