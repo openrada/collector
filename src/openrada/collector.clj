@@ -1,6 +1,5 @@
 (ns openrada.collector
   (:require [net.cgrand.enlive-html :as html]
-            [cheshire.core :as json]
             [clojure.java.io :as io]
             [clojure.string :as str]
             [openrada.utils :as utils]))
