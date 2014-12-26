@@ -6,7 +6,6 @@
 
   (testing "Parse Parasiuk"
     (let [deputy (collector/parse-deputy "http://gapp.rada.gov.ua/mps/info/page/18124")]
-      (println (:roles deputy))
       (is (= (:deputy_since deputy) "2014-11-27"))
       (is (= (:dob deputy) "1987-07-9"))
       (is (= (:email deputy) "Parasiuk.Volodymyr@rada.gov.ua"))
@@ -18,7 +17,6 @@
 
   (testing "Parse Yarosh"
     (let [deputy (collector/parse-deputy "http://gapp.rada.gov.ua/mps/info/page/18153")]
-      (println (:roles deputy))
       (is (= (:deputy_since deputy) "2014-11-27"))
       (is (= (:dob deputy) "1971-09-30"))
       (is (= (:email deputy) "Yarosh.Dmytro@rada.gov.ua"))
@@ -27,4 +25,15 @@
       (is (= (:region deputy) "Дніпропетровська область"))
       (is (= (:title (:roles deputy)) "Заступник голови Комітету Верховної Ради України з питань національної безпеки і оборони")))))
 
+
+(deftest check-parse-deputies-for-rada-8
+
+  (testing "Parse All Links"
+    (let [deputies (collector/parse-deputies-8)
+          abdullin (first deputies)]
+      (is (= (count deputies) 422))
+      (is (= (:rada abdullin) 8))
+      (is (= (:link abdullin) "http://gapp.rada.gov.ua/mps/info/page/2524"))
+      (is (= (:full_name abdullin) "Абдуллін Олександр Рафкатович"))
+      (is (= (:short_name abdullin) "Абдуллін О.Р.")))))
 
