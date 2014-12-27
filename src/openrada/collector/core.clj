@@ -27,11 +27,11 @@
 
 
 ;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=8
-(defn parse-deputies [page-url rada]
+(defn parse-deputies [page-url convocation]
   (let [page (fetch-url page-url)
         deputies (map (fn [node]
                     {:link (:href (:attrs node))
-                     :rada rada
+                     :convocation convocation
                      :full_name (html/text node)
                      :short_name (short-name (html/text node))})
                        (html/select page [:ul :li :p.title :a]))]
