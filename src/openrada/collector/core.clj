@@ -1,8 +1,8 @@
-(ns openrada.collector
+(ns openrada.collector.core
   (:require [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [openrada.utils :as utils]))
+            [openrada.collector.utils :as utils]))
 
 
 (defn trim [text]

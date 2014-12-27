@@ -1,6 +1,6 @@
-(ns openrada.collector-test
+(ns openrada.collector.core-test
   (:use clojure.test)
-  (:require [openrada.collector :as collector]))
+  (:require [openrada.collector.core :as collector]))
 
 (deftest check-parse-deputy
 

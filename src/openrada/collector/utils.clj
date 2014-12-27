@@ -1,4 +1,4 @@
-(ns openrada.utils
+(ns openrada.collector.utils
   (:require [clj-http.client :as http-client]))
 
 
