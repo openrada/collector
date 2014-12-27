@@ -91,21 +91,10 @@
 (defn parse-dob [text]
   (transform-date
     (first
-      (str/split
-        (second
-          (str/split text #"Дата народження:"))
+      (str/split text
        #"р\."))))
 
 
-(defn parse-fraction [text]
-  (if (.contains text "Не входить до складу будь-якої фракції")
-    "Не входить до складу будь-якої фракції"
-    (str "Член депутатської"
-      (first
-        (str/split
-          (second
-            (str/split text #"Член депутатської"))
-          #"Дата народження:")))))
 
 (defn parse-email [text]
   (->
@@ -121,9 +110,13 @@
           (str/split text #"Тел:"))
         #"Ел. пошта:"))))
 
+
+
+
 (defn parse-member [page-url]
   (let [page (fetch-url page-url "utf-8")
-        text-str (str/join (map str/trim (map html/text (html/select page [:table.simple_info :td]))))
+        faction (str/trim (last (str/split (str/trim (html/text (nth (html/select page [:table.simple_info :td ]) 1))) #"\n")))
+        dob-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 3))
         contact-str (str/join (map str/trim (map html/text (html/select page [:div.information_block_ins]))))
         roles-names (map str/trim (map html/text (html/select page [:ul.level1 :li])))
         roles-links (map (fn [node] (str/trim (:href (:attrs node)))) (html/select page [:ul.level1 :li :a]))
@@ -141,18 +134,18 @@
                         {(transform-member-labels (first (clojure.string/split (trim fe) #":")))
                          (transform-member-values (trim se))}) main-labels main-values)))
         new-member-since-date (transform-date (get merged "member_since"))
-        dob (parse-dob text-str)
-        fraction (parse-fraction text-str)
+        dob (parse-dob dob-text-str)
         email (parse-email contact-str)
         ;phone (parse-phone contact-str)
         merged (dissoc merged "member_since")]
       (assoc merged :dob dob
                     :email email
                     ;:phone phone
-                    :fraction fraction
+                    :faction faction
                     :roles roles
                     :image image
                     :member_since new-member-since-date)))
 
 
 ;(parse-member "http://gapp.rada.gov.ua/mps/info/page/18124")
+
