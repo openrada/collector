@@ -40,9 +40,7 @@
 
 (defn parse-deputies-8 []
   (parse-deputies "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9" 8))
-;
 
-;(parse-deputies-8)
 
 (defn transform-month [month]
   (case month

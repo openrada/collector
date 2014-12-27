@@ -32,7 +32,7 @@
     (let [deputies (collector/parse-deputies-8)
           abdullin (first deputies)]
       (is (= (count deputies) 422))
-      (is (= (:rada abdullin) 8))
+      (is (= (:convocation abdullin) 8))
       (is (= (:link abdullin) "http://gapp.rada.gov.ua/mps/info/page/2524"))
       (is (= (:full_name abdullin) "Абдуллін Олександр Рафкатович"))
       (is (= (:short_name abdullin) "Абдуллін О.Р.")))))
