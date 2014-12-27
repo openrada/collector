@@ -23,17 +23,19 @@
         surname (first tokens)
         first-name (second tokens)
         father-name (last tokens)]
-    (str surname " " (.charAt first-name 0) "." (.charAt father-name 0) ".")))
+    (if (> (count tokens) 2)
+      (str surname " " (.charAt first-name 0) "." (.charAt father-name 0) ".")
+      (str surname " " (.charAt first-name 0) "."))))
 
 
 ;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=8
 (defn parse-members [page-url convocation]
   (let [page (fetch-url page-url)
         members (map (fn [node]
-                    {:link (:href (:attrs node))
+                    {:link (:href (trim (:attrs node)))
                      :convocation convocation
-                     :full_name (html/text node)
-                     :short_name (short-name (html/text node))})
+                     :full_name (trim (html/text node))
+                     :short_name (trim (short-name (html/text node)))})
                        (html/select page [:ul :li :p.title :a]))]
       members))
 
@@ -143,9 +145,9 @@
         phone (parse-phone contact-str)
         merged (dissoc merged "member_since")]
       (assoc merged :dob dob
-                    :email email
-                    :phone phone
-                    :faction faction
+                    :email (trim email)
+                    :phone (trim phone)
+                    :faction (trim faction)
                     :roles roles
                     :image image
                     :member_since new-member-since-date)))
