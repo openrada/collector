@@ -97,18 +97,22 @@
 
 
 (defn parse-email [text]
-  (->
-    (str/split text #"Ел. пошта:")
-    (second)
-    (str/trim)))
+  (if (.contains text "Ел. пошта:")
+    (->
+      (str/split text #"Ел. пошта:")
+      (second)
+      (str/trim))
+    ""))
 
 (defn parse-phone [text]
-  (str/trim
-    (first
-      (str/split
-        (second
-          (str/split text #"Тел:"))
-        #"Ел. пошта:"))))
+  (if (.contains text "Тел:")
+    (str/trim
+      (first
+        (str/split
+          (second
+            (str/split text #"Тел:"))
+          #"Ел. пошта:")))
+    ""))
 
 
 
@@ -136,16 +140,24 @@
         new-member-since-date (transform-date (get merged "member_since"))
         dob (parse-dob dob-text-str)
         email (parse-email contact-str)
-        ;phone (parse-phone contact-str)
+        phone (parse-phone contact-str)
         merged (dissoc merged "member_since")]
       (assoc merged :dob dob
                     :email email
-                    ;:phone phone
+                    :phone phone
                     :faction faction
                     :roles roles
                     :image image
                     :member_since new-member-since-date)))
 
 
-;(parse-member "http://gapp.rada.gov.ua/mps/info/page/18124")
+;(parse-member "http://gapp.rada.gov.ua/mps/info/page/18414")
 
+;(map (fn [member]
+;       (do
+;         (println "xxx" member)
+;        (try
+;           (parse-member (:link member))
+;           (catch Exception e (println "pppp" member)))
+;         )
+;       ) (parse-members-8))

@@ -8,5 +8,4 @@ Data collection component
 
 ## TODO
 
-  - parse phone if available
   - parse additional data
