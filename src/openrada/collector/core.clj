@@ -27,19 +27,19 @@
 
 
 ;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=8
-(defn parse-deputies [page-url convocation]
+(defn parse-members [page-url convocation]
   (let [page (fetch-url page-url)
-        deputies (map (fn [node]
+        members (map (fn [node]
                     {:link (:href (:attrs node))
                      :convocation convocation
                      :full_name (html/text node)
                      :short_name (short-name (html/text node))})
                        (html/select page [:ul :li :p.title :a]))]
-      deputies))
+      members))
 
 
-(defn parse-deputies-8 []
-  (parse-deputies "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9" 8))
+(defn parse-members-8 []
+  (parse-members "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9" 8))
 
 
 
@@ -72,17 +72,17 @@
 
 
 
-(defn transform-deputy-labels [label]
+(defn transform-member-labels [label]
   (case label
     "Обраний по" :district
     "Обрана по" :district
     "Регіон" :region
     "Партія" :party
     "Номер у списку" :rank_in_party
-    "Дата набуття депутатських повноважень" "deputy_since"
+    "Дата набуття депутатських повноважень" "member_since"
     nil))
 
-(defn transform-deputy-values [value]
+(defn transform-member-values [value]
   (clojure.string/replace
      (clojure.string/replace value "Виборчому округу " "Виборчий округ ")
      "Загальнодержавному багатомандатному округу" "Загальнодержавний багатомандатний округ"))
@@ -121,7 +121,7 @@
           (str/split text #"Тел:"))
         #"Ел. пошта:"))))
 
-(defn parse-deputy [page-url]
+(defn parse-member [page-url]
   (let [page (fetch-url page-url "utf-8")
         text-str (str/join (map str/trim (map html/text (html/select page [:table.simple_info :td]))))
         contact-str (str/join (map str/trim (map html/text (html/select page [:div.information_block_ins]))))
@@ -138,21 +138,21 @@
         merged (into {}
                      (filter identity
                        (map (fn [fe se]
-                        {(transform-deputy-labels (first (clojure.string/split (trim fe) #":")))
-                         (transform-deputy-values (trim se))}) main-labels main-values)))
-        new-deputy-since-date (transform-date (get merged "deputy_since"))
+                        {(transform-member-labels (first (clojure.string/split (trim fe) #":")))
+                         (transform-member-values (trim se))}) main-labels main-values)))
+        new-member-since-date (transform-date (get merged "member_since"))
         dob (parse-dob text-str)
         fraction (parse-fraction text-str)
         email (parse-email contact-str)
         ;phone (parse-phone contact-str)
-        merged (dissoc merged "deputy_since")]
+        merged (dissoc merged "member_since")]
       (assoc merged :dob dob
                     :email email
                     ;:phone phone
                     :fraction fraction
                     :roles roles
                     :image image
-                    :deputy_since new-deputy-since-date)))
+                    :member_since new-member-since-date)))
 
 
-;(parse-deputy "http://gapp.rada.gov.ua/mps/info/page/18124")
+;(parse-member "http://gapp.rada.gov.ua/mps/info/page/18124")
