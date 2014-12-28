@@ -97,10 +97,12 @@
 
 (defn parse-email [text]
   (if (str/contains? text "Ел. пошта:")
-    (->
-      (str/split text "Ел. пошта:")
-      (second)
-      (str/collapse-whitespace))
+    (str/collapse-whitespace
+      (first
+        (str/split
+          (second
+            (str/split text "Ел. пошта:"))
+          "Веб-сайт:")))
     ""))
 
 (defn parse-phone [text]
