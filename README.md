@@ -6,6 +6,3 @@ collector
 Data collection component
 
 
-## TODO
-
-  - parse additional data
