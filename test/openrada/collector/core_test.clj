@@ -17,6 +17,16 @@
       (is (= (:title (:roles member)) "Член Комітету Верховної Ради України з питань запобігання і протидії корупції"))))
 
 
+  (testing "Parse Krulko"
+    (let [member (collector/parse-member "http://gapp.rada.gov.ua/mps/info/page/6073")]
+      (is (= (:member_since member) "2014-11-27"))
+      (is (= (:dob member) "1981-07-20"))
+      (is (= (:email member) "Krulko.Ivan@rada.gov.ua"))
+      (is (= (:phone member) "(044) 255-45-55"))
+      (is (= (:party member) "політична партія Всеукраїнське об'єднання \"Батьківщина\""))
+      (is (= (:rank_in_party member) "8"))
+      (is (= (:title (:roles member)) "Голова підкомітету з питань державного фінансового контролю та діяльності Рахункової палати Комітету Верховної Ради України з питань бюджету"))))
+
   (testing "Parse Yarosh"
     (let [member (collector/parse-member "http://gapp.rada.gov.ua/mps/info/page/18153")]
       (is (= (:member_since member) "2014-11-27"))
