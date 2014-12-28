@@ -121,18 +121,21 @@
 (defn remove-last-char [s]
   (subs s 0 (- (count s) 1)))
 
+(defn parse-faction [text]
+  (if (= text "27 листопада 2014р.")
+    ""
+    text))
+
 (defn parse-member [page-url]
   (let [page (fetch-url page-url "utf-8")
         faction-text (html/text (nth (html/select page [:table.simple_info :td ]) 1))
         dob-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 3))
         notes-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 5))
         contact-str (str/join (map str/trim (map html/text (html/select page [:div.information_block_ins]))))
-        roles-names (map str/trim (map html/text (html/select page [:ul.level1 :li])))
-        roles-links (map (fn [node] (str/trim (:href (:attrs node)))) (html/select page [:ul.level1 :li :a]))
-        roles (into {}
-                    (map (fn [role link]
-                     {:title (str/collapse-whitespace role)
-                      :link link}) roles-names roles-links))
+        role-name (first (map str/trim (map html/text (html/select page [:ul.level1 :li]))))
+        role-link (first (map (fn [node] (str/trim (:href (:attrs node)))) (html/select page [:ul.level1 :li :a])))
+        role {:title (str/collapse-whitespace role-name)
+              :link (str/trim role-link)}
         image-url (:src (:attrs (first (html/select page [:table.simple_info :img]))))
         image (utils/fetch-image-as-base64 image-url)
         main-labels (map html/text (html/select page [:div.mp-general-info :dt]))
@@ -149,12 +152,12 @@
         merged (dissoc merged "member_since")
         notes (map str/clean (str/split notes-text-str ","))
         notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))
-        faction (str/trim (last (remove str/blank? (map str/clean (str/lines faction-text)))))]
+        faction (parse-faction (str/trim (last (remove str/blank? (map str/clean (str/lines faction-text))))))]
       (assoc merged :dob dob
                     :email email
                     :phone phone
                     :faction faction
-                    :roles roles
+                    :role role
                     :image image
                     :notes notes
                     :member_since new-member-since-date)))

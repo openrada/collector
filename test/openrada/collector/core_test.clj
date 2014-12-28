@@ -14,7 +14,7 @@
       (is (= (:region member) "Львівська область"))
       (is (= (first (:notes member)) "освіта загальна середня"))
       (is (= (last (:notes member)) "самовисування"))
-      (is (= (:title (:roles member)) "Член Комітету Верховної Ради України з питань запобігання і протидії корупції"))))
+      (is (= (:title (:role member)) "Член Комітету Верховної Ради України з питань запобігання і протидії корупції"))))
 
 
   (testing "Parse Krulko"
@@ -25,7 +25,17 @@
       (is (= (:phone member) "(044) 255-45-55"))
       (is (= (:party member) "політична партія Всеукраїнське об'єднання \"Батьківщина\""))
       (is (= (:rank_in_party member) "8"))
-      (is (= (:title (:roles member)) "Голова підкомітету з питань державного фінансового контролю та діяльності Рахункової палати Комітету Верховної Ради України з питань бюджету"))))
+      (is (= (:title (:role member)) "Голова підкомітету з питань державного фінансового контролю та діяльності Рахункової палати Комітету Верховної Ради України з питань бюджету"))))
+
+  (testing "Parse Groisman"
+    (let [member (collector/parse-member "http://gapp.rada.gov.ua/mps/info/page/17973")]
+      (is (= (:member_since member) "2014-11-27"))
+      (is (= (:dob member) "1978-01-20"))
+      (is (= (:faction member) ""))
+      (is (= (:email member) "Groysman.Volodymyr@rada.gov.ua"))
+      (is (= (:party member) "ПАРТІЯ \"БЛОК ПЕТРА ПОРОШЕНКА\""))
+      (is (= (:rank_in_party member) "4"))
+      (is (= (:title (:role member)) "Голова Верховної Ради України"))))
 
   (testing "Parse Yarosh"
     (let [member (collector/parse-member "http://gapp.rada.gov.ua/mps/info/page/18153")]
@@ -37,7 +47,7 @@
       (is (= (:region member) "Дніпропетровська область"))
       (is (= (first (:notes member)) "освіта вища"))
       (is (= (last (:notes member)) "суб’єкт висування – Політична партія \"ПРАВИЙ СЕКТОР\""))
-      (is (= (:title (:roles member)) "Заступник голови Комітету Верховної Ради України з питань національної безпеки і оборони")))))
+      (is (= (:title (:role member)) "Заступник голови Комітету Верховної Ради України з питань національної безпеки і оборони")))))
 
 
 (deftest check-parse-members-for-rada-8
