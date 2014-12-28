@@ -6,5 +6,6 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [enlive "1.1.5"]
-                 [clj-http "1.0.1"]]
+                 [clj-http "1.0.1"]
+                 [cuerdas "0.1.0"]]
   :target-path "target/%s")
