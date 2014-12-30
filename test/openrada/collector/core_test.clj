@@ -32,7 +32,7 @@
       (is (= (:member_since member) "2014-11-27"))
       (is (= (:dob member) "1978-01-20"))
       (is (= (:faction member) ""))
-      (is (= (:email member) "Groysman.Volodymyr@rada.gov.ua"))
+      (is (= (:email member) "V.Groysman@rada.gov.ua"))
       (is (= (:party member) "ПАРТІЯ \"БЛОК ПЕТРА ПОРОШЕНКА\""))
       (is (= (:rank_in_party member) "4"))
       (is (= (:title (:role member)) "Голова Верховної Ради України"))))
