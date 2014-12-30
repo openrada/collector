@@ -1,4 +1,4 @@
-(defproject openrada.collector "0.1.0-SNAPSHOT"
+(defproject openrada/collector "0.1.0-SNAPSHOT"
   :description "Openrada data collection component"
   :url "https://github.com/openrada/collector"
   :license {:name "Eclipse Public License"
