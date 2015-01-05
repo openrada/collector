@@ -15,8 +15,15 @@
       (is (= (:member (first (:members committee))) "Ар'єв Володимир Ігорович"))
       (is (= (:role (first (:members committee))) "Голова підкомітету"))
       (is (= (:member (last (:members committee))) "Тарасюк Борис Іванович"))
-      (is (= (:role (last (:members committee))) "Заступник голови Комітету, голова підкомітету Комітету"))
+      (is (= (:role (last (:members committee))) "Заступник голови Комітету, голова підкомітету Комітету"))))
 
-      )))
+  (testing "Parse Budget"
+    (let [committee (committees/parse-committee {:link "http://w1.c1.rada.gov.ua/pls/site2/p_komity?pidid=2622"
+                                                 :full_name "Комітет з питань бюджету"})]
+      (is (= (:created committee) "2014-12-04"))
+      (is (= (:full_name committee) "Комітет з питань бюджету"))
+      (is (= (:link committee) "http://w1.c1.rada.gov.ua/pls/site2/p_komity?pidid=2622"))
+      (is (= (:site committee) nil))
+      (is (= (count (:members committee)) 28)))))
 
 
