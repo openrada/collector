@@ -5,11 +5,12 @@
             [openrada.collector.utils :as utils]))
 
 ;http://w1.c1.rada.gov.ua/pls/site2/p_komitis
-(defn parse-committees-list [page-url]
+(defn parse-committees-list [page-url convocation]
   (let [page (utils/fetch-url page-url)
         base-url (str/replace page-url "p_komitis" "")
         items (map (fn [node]
-                    {:link (str base-url (str/trim (:href (:attrs node))))
+                    {:convocation convocation
+                     :link (str base-url (str/trim (:href (:attrs node))))
                      :full_name (str/trim (html/text node))})
                        (html/select page [:table :a.topTitle]))]
 
@@ -47,6 +48,7 @@
         members (parse-committee-members members-url)]
       {:created created-at
        :site (if (str/contains? site-str "rada.gov.ua") site-str nil)
+       :convocation (:convocation committee)
        :members members
        :full_name (:full_name committee)
        :link (:link committee)}))
@@ -55,8 +57,8 @@
 ;(parse-committee {:link "http://w1.c1.rada.gov.ua/pls/site2/p_komity?pidid=2622"})
 
 ;(parse-committees-list "http://w1.c1.rada.gov.ua/pls/site2/p_komitis")
-(defn parse-committees []
-  (let [committees (parse-committees-list "http://w1.c1.rada.gov.ua/pls/site2/p_komitis")]
+(defn parse-committees [convocation]
+  (let [committees (parse-committees-list "http://w1.c1.rada.gov.ua/pls/site2/p_komitis" convocation)]
     (map parse-committee committees)))
 
 
