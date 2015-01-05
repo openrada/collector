@@ -10,7 +10,7 @@
                                                  :convocation 8})]
       (is (= (:created committee) "2014-12-04"))
       (is (= (:convocation committee) 8))
-      (is (= (:full_name committee) "Комітет у закордонних справах"))
+      (is (= (:committee_name committee) "Комітет у закордонних справах"))
       (is (= (:link committee) "http://w1.c1.rada.gov.ua/pls/site2/p_komity?pidid=2629"))
       (is (= (:site committee) "http://komzak.rada.gov.ua/"))
       (is (= (count (:members committee)) 10))
@@ -25,7 +25,7 @@
                                                  :convocation 8})]
       (is (= (:created committee) "2014-12-04"))
       (is (= (:convocation committee) 8))
-      (is (= (:full_name committee) "Комітет з питань бюджету"))
+      (is (= (:committee_name committee) "Комітет з питань бюджету"))
       (is (= (:link committee) "http://w1.c1.rada.gov.ua/pls/site2/p_komity?pidid=2622"))
       (is (= (:site committee) nil))
       (is (= (count (:members committee)) 28)))))

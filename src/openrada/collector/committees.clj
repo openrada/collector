@@ -50,7 +50,7 @@
        :site (if (str/contains? site-str "rada.gov.ua") site-str nil)
        :convocation (:convocation committee)
        :members members
-       :full_name (:full_name committee)
+       :committee_name (:full_name committee)
        :link (:link committee)}))
 
 
