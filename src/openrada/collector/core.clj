@@ -6,13 +6,7 @@
 
 
 
-(defn fetch-url
-  ([url] (fetch-url url "windows-1251"))
-  ([url encoding]
-  (-> url
-      java.net.URL.
-      .getContent (java.io.InputStreamReader. encoding) ;<- encoding goes here
-      html/html-resource)))
+
 
 
 (defn short-name [full-name]
@@ -27,7 +21,7 @@
 
 ;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=8
 (defn parse-members [page-url convocation]
-  (let [page (fetch-url page-url)
+  (let [page (utils/fetch-url page-url)
         members (map (fn [node]
                     {:link (str/trim (:href (:attrs node)))
                      :convocation convocation
@@ -42,32 +36,6 @@
 
 
 
-
-(defn transform-month [month]
-  (case month
-    "січня" "01"
-    "лютого" "02"
-    "березня" "03"
-    "квітня" "04"
-    "травня" "05"
-    "червня" "06"
-    "липня" "07"
-    "серпня" "08"
-    "вересня" "09"
-    "жовтня" "10"
-    "листопада" "11"
-    "грудня" "12"
-    nil))
-
-
-
-(defn transform-date [date]
-  (let [date-str (str/trim date)
-        tokens (str/split date-str " ")
-        year (str/join (take 4 (last tokens)))
-        month (transform-month (second tokens))
-        day (first tokens)]
-    (str year "-" month "-" day)))
 
 
 
@@ -88,7 +56,7 @@
 
 
 (defn parse-dob [text]
-  (transform-date
+  (utils/transform-date
     (first
       (str/split text #"р\."))))
 
@@ -126,7 +94,7 @@
     text))
 
 (defn parse-member [page-url]
-  (let [page (fetch-url page-url "utf-8")
+  (let [page (utils/fetch-url page-url "utf-8")
         faction-text (html/text (nth (html/select page [:table.simple_info :td ]) 1))
         dob-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 3))
         notes-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 5))
@@ -144,7 +112,7 @@
                        (map (fn [fe se]
                         {(transform-member-labels (first (clojure.string/split (str/trim fe) #":")))
                          (transform-member-values (str/trim se))}) main-labels main-values)))
-        new-member-since-date (transform-date (get merged "member_since"))
+        new-member-since-date (utils/transform-date (get merged "member_since"))
         dob (parse-dob dob-text-str)
         email (parse-email contact-str)
         phone (parse-phone contact-str)
