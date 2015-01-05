@@ -124,7 +124,7 @@
                     :email email
                     :phone phone
                     :faction faction
-                    :role role
+                    :role (if (nil? (:link role)) (:title role))
                     :image image
                     :notes notes
                     :member_since new-member-since-date)))
