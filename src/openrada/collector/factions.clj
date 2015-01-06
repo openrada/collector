@@ -13,7 +13,7 @@
         items (map (fn [node]
                     {:convocation convocation
                      :link (str base-url (str/trim (:href (:attrs node))))
-                     :faction_name (str/trim (html/text node))})
+                     :name (str/trim (html/text node))})
                        (html/select page [:table :td.topTitle :a]))]
 
       (filter (fn [item]
@@ -51,7 +51,7 @@
       {:created created-at
        :convocation (:convocation faction)
        :members members
-       :faction_name (:faction_name faction)
+       :name (:name faction)
        :link (:link faction)}))
 
 
