@@ -47,7 +47,7 @@
 (deftest check-parse-members-for-rada-8
 
   (testing "Parse All Links"
-    (let [members (members/parse-members "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9" 8)
+    (let [members (members/parse-members 8)
           abdullin (first members)]
       (is (= (count members) 422))
       (is (= (:convocation abdullin) 8))

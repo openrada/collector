@@ -15,16 +15,19 @@
       (str surname " " (.charAt first-name 0) "."))))
 
 
-;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9
-(defn parse-members [page-url convocation]
-  (let [page (utils/fetch-url page-url)
-        members (map (fn [node]
-                    {:link (str/trim (:href (:attrs node)))
-                     :convocation convocation
-                     :full_name (str/trim (html/text node))
-                     :short_name (str/trim (short-name (html/text node)))})
-                       (html/select page [:ul :li :p.title :a]))]
-      members))
+
+(defn parse-members
+  ([convocation]
+   (parse-members convocation "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9"))
+  ([convocation page-url ]
+    (let [page (utils/fetch-url page-url)
+          members (map (fn [node]
+                      {:link (str/trim (:href (:attrs node)))
+                       :convocation convocation
+                       :full_name (str/trim (html/text node))
+                       :short_name (str/trim (short-name (html/text node)))})
+                         (html/select page [:ul :li :p.title :a]))]
+        members)))
 
 
 (defn transform-member-labels [label]
