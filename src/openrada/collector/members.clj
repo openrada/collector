@@ -1,4 +1,4 @@
-(ns openrada.collector.core
+(ns openrada.collector.members
   (:require [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io]
             [cuerdas.core :as str]

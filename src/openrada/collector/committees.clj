@@ -11,7 +11,7 @@
         items (map (fn [node]
                     {:convocation convocation
                      :link (str base-url (str/trim (:href (:attrs node))))
-                     :full_name (str/trim (html/text node))})
+                     :committee_name (str/trim (html/text node))})
                        (html/select page [:table :a.topTitle]))]
 
     (filter (fn [item]
@@ -50,7 +50,7 @@
        :site (if (str/contains? site-str "rada.gov.ua") site-str nil)
        :convocation (:convocation committee)
        :members members
-       :committee_name (:full_name committee)
+       :committee_name (:committee_name committee)
        :link (:link committee)}))
 
 
