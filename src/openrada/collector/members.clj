@@ -5,10 +5,6 @@
             [openrada.collector.utils :as utils]))
 
 
-
-
-
-
 (defn short-name [full-name]
   (let [tokens (str/split full-name " ")
         surname (first tokens)
@@ -19,7 +15,7 @@
       (str surname " " (.charAt first-name 0) "."))))
 
 
-;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=8
+;http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9
 (defn parse-members [page-url convocation]
   (let [page (utils/fetch-url page-url)
         members (map (fn [node]
@@ -29,14 +25,6 @@
                      :short_name (str/trim (short-name (html/text node)))})
                        (html/select page [:ul :li :p.title :a]))]
       members))
-
-
-(defn parse-members-8 []
-  (parse-members "http://w1.c1.rada.gov.ua/pls/site2/fetch_mps?skl_id=9" 8))
-
-
-
-
 
 
 (defn transform-member-labels [label]
@@ -88,14 +76,9 @@
 (defn remove-last-char [s]
   (subs s 0 (- (count s) 1)))
 
-(defn parse-faction [text]
-  (if (= text "27 листопада 2014р.")
-    ""
-    text))
 
 (defn parse-member [page-url]
   (let [page (utils/fetch-url page-url "utf-8")
-        faction-text (html/text (nth (html/select page [:table.simple_info :td ]) 1))
         dob-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 3))
         notes-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 5))
         contact-str (str/join (map str/trim (map html/text (html/select page [:div.information_block_ins]))))
@@ -118,13 +101,11 @@
         phone (parse-phone contact-str)
         merged (dissoc merged "member_since")
         notes (map str/clean (str/split notes-text-str ","))
-        notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))
-        faction (parse-faction (str/trim (last (remove str/blank? (map str/clean (str/lines faction-text))))))]
+        notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))]
       (assoc merged :dob dob
                     :email email
                     :phone phone
-                    :faction faction
-                    :role (if (nil? (:link role)) (:title role))
+                    :position (if (nil? (:link role)) (:title role))
                     :image image
                     :notes notes
                     :member_since new-member-since-date)))
