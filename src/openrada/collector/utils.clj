@@ -56,4 +56,4 @@
   (str/trim (:href (:attrs node))))
 
 (defn get-links [nodes]
-  (map #(str/trim (:href (:attrs %))) nodes))
+  (map #(get-link %) nodes))

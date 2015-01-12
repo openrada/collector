@@ -8,8 +8,8 @@
 ;http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_pd1
 (defn parse-voting-days [page-url convocation]
   (let [page (utils/fetch-url page-url)
-        links-els (html/select page [(html/attr= :style "background-color:#FFFFAE;") :a])]
+        links-els (html/select page [(html/attr-contains :href "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_pd2")])]
                    (utils/get-links links-els)
                    ))
 
-(parse-voting-days "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_pd1" 8)
+;(parse-voting-days "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_pd1" 8)
