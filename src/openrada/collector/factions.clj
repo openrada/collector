@@ -12,7 +12,7 @@
         base-url (str/replace page-url "p_fractions" "")
         items (map (fn [node]
                     {:convocation convocation
-                     :link (str base-url (str/trim (:href (:attrs node))))
+                     :link (str base-url (utils/get-link node))
                      :name (str/trim (html/text node))})
                        (html/select page [:table :td.topTitle :a]))]
 

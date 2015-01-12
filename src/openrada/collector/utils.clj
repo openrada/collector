@@ -50,3 +50,10 @@
         month (transform-month (second tokens))
         day (first tokens)]
     (str year "-" month "-" day)))
+
+
+(defn get-link [node]
+  (str/trim (:href (:attrs node))))
+
+(defn get-links [nodes]
+  (map #(str/trim (:href (:attrs %))) nodes))

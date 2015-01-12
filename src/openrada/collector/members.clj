@@ -86,9 +86,9 @@
         notes-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 5))
         contact-str (str/join (map str/trim (map html/text (html/select page [:div.information_block_ins]))))
         role-name (first (map str/trim (map html/text (html/select page [:ul.level1 :li]))))
-        role-link (first (map (fn [node] (str/trim (:href (:attrs node)))) (html/select page [:ul.level1 :li :a])))
+        role-link (first (utils/get-links (html/select page [:ul.level1 :li :a])))
         role {:title (if (nil? role-name) nil (str/collapse-whitespace role-name))
-              :link (str/trim role-link)}
+              :link role-link}
         image-url (:src (:attrs (first (html/select page [:table.simple_info :img]))))
         image (utils/fetch-image-as-base64 image-url)
         main-labels (map html/text (html/select page [:div.mp-general-info :dt]))
