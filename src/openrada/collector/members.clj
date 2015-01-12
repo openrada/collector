@@ -104,14 +104,23 @@
         phone (parse-phone contact-str)
         merged (dissoc merged "member_since")
         notes (map str/clean (str/split notes-text-str ","))
-        notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))]
+        notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))
+        online-registrations-link (utils/get-link (first (html/select page [(html/attr-contains :href "/ns_dep?vid=2")])))
+        offline-registrations-link (utils/get-link (first (html/select page [(html/attr-contains :href "/ns_dep?vid=3")])))
+        ]
       (assoc merged :dob dob
                     :email email
                     :phone phone
                     :position (if (nil? (:link role)) (:title role))
                     :image image
                     :notes notes
-                    :member_since new-member-since-date)))
+                    :member_since new-member-since-date
+                    :online_registrations_link online-registrations-link
+                    :offline_registrations_link offline-registrations-link
+        )))
+
+
+
 
 
 ;(parse-member "http://gapp.rada.gov.ua/mps/info/page/18414")
