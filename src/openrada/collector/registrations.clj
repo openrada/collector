@@ -46,6 +46,7 @@
              {:date (str/clean (nth clean-row 1))
               :type (nth clean-row 2)
               :status (transform-offline-status(last clean-row))}
+              :reg_type "online"
              )
            ) rows))))
 ;(parse-member-online-registrations "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")
@@ -62,7 +63,8 @@
            (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
              {:date (str/trim (nth clean-row 2))
               :type (nth clean-row 3)
-              :status (transform-online-status(last clean-row))}
+              :status (transform-online-status(last clean-row))
+              :reg_type "offline"}
              )
            ) rows))))
 

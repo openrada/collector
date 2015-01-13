@@ -12,6 +12,7 @@
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014 12:04:53")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
+      (is (= (:ref_type (first registrations) "online")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - offline registrations"
@@ -21,6 +22,7 @@
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
+      (is (= (:ref_type (first registrations) "offline")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - online registrations from original link"
@@ -31,6 +33,7 @@
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014 12:04:53")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
+      (is (= (:ref_type (first registrations) "online")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - offline registrations from original link"
@@ -41,5 +44,6 @@
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
+      (is (= (:ref_type (first registrations) "offline")))
       (is (= (:status (first registrations) "present")))))
   )
