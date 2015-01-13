@@ -18,6 +18,20 @@
     "Незареєстрований" "absent"
     nil))
 
+
+
+(defn build-online-regs-url [url date]
+  (let [s1 (str/repace url "ns_dep" "ns_dep_reg_list")
+        start-date (utils/to-ua-date-str date)
+        end-date (utils/to-ua-date-str)]
+      (str s1 "&startDate=" start-date "&endDate=" end-date)))
+
+(defn build-offline-regs-url [url date]
+  (let [s1 (str/repace url "ns_dep" "ns_dep_reg_w_list")
+        start-date (utils/to-ua-date-str date)
+        end-date (utils/to-ua-date-str)]
+      (str s1 "&startDate=" start-date "&endDate=" end-date)))
+
 (defn parse-member-online-registrations
   "example page-url
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"

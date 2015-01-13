@@ -4,6 +4,7 @@
             [cuerdas.core :as str]
             [openrada.collector.utils :as utils]))
 
+
 ;http://w1.c1.rada.gov.ua/pls/site2/p_komitis
 (defn parse-committees-list [page-url convocation]
   (let [page (utils/fetch-url page-url)

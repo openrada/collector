@@ -1,7 +1,9 @@
 (ns openrada.collector.utils
   (:require [clj-http.client :as http-client]
             [net.cgrand.enlive-html :as html]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [clj-time.format :as f]
+            [clj-time.core :as t]))
 
 
 ;; Import Apache Common's Base64 encoder/decoder
@@ -57,3 +59,12 @@
 
 (defn get-links [nodes]
   (map #(get-link %) nodes))
+
+
+(def ua-formatter (f/formatter "dd.MM.yyyy"))
+
+(defn to-ua-date-str
+  ([] (ua-format (t/now)))
+  ([date]
+    (f/unparse ua-formatter date)))
+
