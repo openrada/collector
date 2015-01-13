@@ -64,7 +64,7 @@
 (def ua-formatter (f/formatter "dd.MM.yyyy"))
 
 (defn to-ua-date-str
-  ([] (ua-format (t/now)))
+  ([] (to-ua-date-str (t/now)))
   ([date]
     (f/unparse ua-formatter date)))
 
