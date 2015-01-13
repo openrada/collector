@@ -22,14 +22,14 @@
 
 (defn build-online-regs-url [url date]
   (let [s1 (str/replace url "ns_dep" "ns_dep_reg_list")
-        s2 (str/replace s1 "vid=2" "")
+        s2 (str/replace s1 "vid=2&" "")
         start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
       (str s2 "&startDate=" start-date "&endDate=" end-date)))
 
 (defn build-offline-regs-url [url date]
   (let [s1 (str/replace url "ns_dep" "ns_dep_reg_w_list")
-        s2 (str/replace s1 "vid=3" "")
+        s2 (str/replace s1 "vid=3&" "")
         start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
       (str s2 "&startDate=" start-date "&endDate=" end-date)))
