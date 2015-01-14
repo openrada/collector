@@ -3,6 +3,7 @@
   (:require [openrada.collector.registrations :as registrations]
             [clj-time.core :as t]))
 
+
 (deftest check-registrations
 
   (testing "Parse Parasiuk - online registrations"

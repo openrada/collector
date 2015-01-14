@@ -39,16 +39,16 @@
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
   ([url start-date] (parse-member-online-registrations (build-online-regs-url url start-date)))
   ([page-url]
-  (let [page (utils/fetch-url page-url)
-        rows (map #(html/text %) (html/select page [:ul.pd :li]))]
-    (map (fn [row]
-           (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
-             {:date (str/clean (nth clean-row 1))
-              :type (nth clean-row 2)
-              :status (transform-offline-status(last clean-row))}
-              :reg_type "online"
-             )
-           ) rows))))
+    (let [page (utils/fetch-url page-url)
+          rows (map #(html/text %) (html/select page [:ul.pd :li]))]
+      (map (fn [row]
+             (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
+               {:date (str/clean (nth clean-row 1))
+                :type (nth clean-row 2)
+                :status (transform-offline-status(last clean-row))
+                :reg_type "online"}
+               )
+             ) rows))))
 ;(parse-member-online-registrations "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")
 
 
@@ -57,15 +57,15 @@
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
   ([url start-date] (parse-member-offline-registrations (build-offline-regs-url url start-date)))
   ([page-url]
-  (let [page (utils/fetch-url page-url)
-        rows (map #(html/text %) (html/select page [:ul.pd :li]))]
-    (map (fn [row]
-           (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
-             {:date (str/trim (nth clean-row 2))
-              :type (nth clean-row 3)
-              :status (transform-online-status(last clean-row))
-              :reg_type "offline"}
-             )
-           ) rows))))
+    (let [page (utils/fetch-url page-url)
+          rows (map #(html/text %) (html/select page [:ul.pd :li]))]
+      (map (fn [row]
+             (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
+               {:date (str/trim (nth clean-row 2))
+                :type (nth clean-row 3)
+                :status (transform-online-status(last clean-row))
+                :reg_type "offline"}
+               )
+             ) rows))))
 
 ;(parse-member-offline-registrations "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")
