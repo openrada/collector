@@ -18,6 +18,17 @@
     "Незареєстрований" "absent"
     nil))
 
+(defn transform-online-type [rtype]
+  (case rtype
+    "Ранкова реєстрація" "morning"
+    "Вечірня реєстрація" "evening"
+    nil))
+
+(defn transform-offline-type [rtype]
+  (case rtype
+    "Ранкове засідання" "morning"
+    "Вечірнє засідання" "evening"
+    nil))
 
 (defn cleanup-online-url [url]
   (if (str/contains? url "ns_dep_reg_list")
@@ -57,8 +68,8 @@
       (map (fn [row]
              (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
                {:date (str/clean (nth clean-row 1))
-                :type (nth clean-row 2)
-                :status (transform-offline-status(last clean-row))
+                :type (transform-online-type (nth clean-row 2))
+                :status (transform-offline-status (last clean-row))
                 :reg_type "online"}
                )
              ) rows))))
@@ -76,10 +87,9 @@
       (map (fn [row]
              (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
                {:date (str/trim (nth clean-row 2))
-                :type (nth clean-row 3)
-                :status (transform-online-status(last clean-row))
-                :reg_type "offline"}
-               )
+                :type (transform-offline-type (nth clean-row 3))
+                :status (transform-online-status (last clean-row))
+                :reg_type "offline"})
              ) rows))))
 
 ;(parse-member-offline-registrations "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")

@@ -12,8 +12,8 @@
            "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")]
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014 12:04:53")))
-      (is (= (:type (first registrations) "Ранкова реєстрація")))
-      (is (= (:ref_type (first registrations) "online")))
+      (is (= (:type (first registrations) "morning")))
+      (is (= (:reg_type (first registrations) "online")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - offline registrations"
@@ -22,8 +22,8 @@
            "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")]
       (is (= (count registrations) 10))
       (is (= (:date (first registrations) "27.11.2014")))
-      (is (= (:type (first registrations) "Ранкова реєстрація")))
-      (is (= (:ref_type (first registrations) "offline")))
+      (is (= (:type (first registrations) "morning")))
+      (is (= (:reg_type (first registrations) "offline")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - online registrations from original link"
@@ -33,8 +33,8 @@
            (t/date-time 2014 11 27))]
       (is (= (count registrations) 17))
       (is (= (:date (first registrations) "27.11.2014 12:04:53")))
-      (is (= (:type (first registrations) "Ранкова реєстрація")))
-      (is (= (:ref_type (first registrations) "online")))
+      (is (= (:type (first registrations) "morning")))
+      (is (= (:reg_type (first registrations) "online")))
       (is (= (:status (first registrations) "present")))))
 
   (testing "Parse Parasiuk - offline registrations from original link"
@@ -44,8 +44,8 @@
            (t/date-time 2014 11 27))]
       (is (= (count registrations) 16))
       (is (= (:date (first registrations) "27.11.2014")))
-      (is (= (:type (first registrations) "Ранкова реєстрація")))
-      (is (= (:ref_type (first registrations) "offline")))
+      (is (= (:type (first registrations) "morning")))
+      (is (= (:reg_type (first registrations) "offline")))
       (is (= (:status (first registrations) "present")))))
 
 
@@ -56,6 +56,6 @@
            (t/date-time 2014 11 27))]
       (is (= (count registrations) 17))
       (is (= (:date (second registrations) "27.11.2014")))
-      (is (= (:type (second registrations) "Ранкова реєстрація")))
-      (is (= (:ref_type (second registrations) "online")))
+      (is (= (:type (second registrations) "morning")))
+      (is (= (:reg_type (second registrations) "online")))
       (is (= (:status (second registrations) "absent"))))))
