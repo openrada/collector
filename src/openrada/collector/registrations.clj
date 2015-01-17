@@ -57,6 +57,8 @@
         end-date (utils/to-ua-date-str)]
       (str url "&startDate=" start-date "&endDate=" end-date)))
 
+(str/clean "23.12.2014    10:09:19")
+
 (defn parse-member-online-registrations
   "example page-url
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
@@ -66,12 +68,11 @@
           page (utils/fetch-url url)
           rows (map #(html/text %) (html/select page [:ul.pd :li]))]
       (map (fn [row]
-             (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
+             (let [clean-row (filter #(not (str/blank? %)) (map str/trim (str/lines row)))]
                {:date (str/clean (nth clean-row 1))
                 :type (transform-online-type (nth clean-row 2))
                 :status (transform-offline-status (last clean-row))
-                :reg_type "online"}
-               )
+                :reg_type "online"})
              ) rows))))
 ;(parse-member-online-registrations "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")
 
