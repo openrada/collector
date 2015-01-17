@@ -80,6 +80,9 @@
   (subs s 0 (- (count s) 1)))
 
 
+(defn get-link-with-sub-url [page subtext]
+  (utils/get-link (first (html/select page [(html/attr-contains :href subtext)]))))
+
 (defn parse-member [page-url]
   (let [page (utils/fetch-url page-url "utf-8")
         dob-text-str (html/text (nth (html/select page [:table.simple_info :td ]) 3))
@@ -105,9 +108,9 @@
         merged (dissoc merged "member_since")
         notes (map str/clean (str/split notes-text-str ","))
         notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))
-        online-registrations-link (utils/get-link (first (html/select page [(html/attr-contains :href "/ns_dep?vid=2")])))
-        offline-registrations-link (utils/get-link (first (html/select page [(html/attr-contains :href "/ns_dep?vid=3")])))
-        ]
+        online-registrations-link (get-link-with-sub-url "/ns_dep?vid=2")
+        offline-registrations-link (get-link-with-sub-url "/ns_dep?vid=3")
+        speakings-link (get-link-with-sub-url "/ns_dep?vid=4")]
       (assoc merged :dob dob
                     :email email
                     :phone phone
@@ -117,6 +120,7 @@
                     :member_since new-member-since-date
                     :online_registrations_link online-registrations-link
                     :offline_registrations_link offline-registrations-link
+                    :speakings_link speakings-link
         )))
 
 
