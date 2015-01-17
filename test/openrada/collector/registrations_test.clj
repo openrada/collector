@@ -54,7 +54,7 @@
           (registrations/parse-member-online-registrations
            "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=2&kod=129"
            (t/date-time 2014 11 27))]
-      (is (= (count registrations) 16))
+      (is (= (count registrations) 17))
       (is (= (:date (second registrations) "27.11.2014")))
       (is (= (:type (second registrations) "Ранкова реєстрація")))
       (is (= (:ref_type (second registrations) "online")))
