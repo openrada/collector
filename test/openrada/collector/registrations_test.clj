@@ -20,7 +20,7 @@
     (let [registrations
           (registrations/parse-member-offline-registrations
            "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")]
-      (is (= (count registrations) 11))
+      (is (= (count registrations) 10))
       (is (= (:date (first registrations) "27.11.2014")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
       (is (= (:ref_type (first registrations) "offline")))
