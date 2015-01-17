@@ -108,9 +108,9 @@
         merged (dissoc merged "member_since")
         notes (map str/clean (str/split notes-text-str ","))
         notes (assoc (vec notes) (- (count notes) 1) (remove-last-char (last notes)))
-        online-registrations-link (get-link-with-sub-url "/ns_dep?vid=2")
-        offline-registrations-link (get-link-with-sub-url "/ns_dep?vid=3")
-        speakings-link (get-link-with-sub-url "/ns_dep?vid=4")]
+        online-registrations-link (get-link-with-sub-url page "/ns_dep?vid=2")
+        offline-registrations-link (get-link-with-sub-url page "/ns_dep?vid=3")
+        speeches-link (get-link-with-sub-url page "/ns_dep?vid=4")]
       (assoc merged :dob dob
                     :email email
                     :phone phone
@@ -120,7 +120,7 @@
                     :member_since new-member-since-date
                     :online_registrations_link online-registrations-link
                     :offline_registrations_link offline-registrations-link
-                    :speakings_link speakings-link
+                    :speeches_link speeches-link
         )))
 
 

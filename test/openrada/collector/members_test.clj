@@ -13,7 +13,7 @@
       (is (= (:region member) "Львівська область"))
       (is (= (:online_registrations_link member) "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=2&kod=87"))
       (is (= (:offline_registrations_link member) "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=3&kod=87"))
-      (is (= (:speakings_link member) "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=4&kod=87"))
+      (is (= (:speeches_link member) "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=4&kod=87"))
       (is (= (first (:notes member)) "освіта загальна середня"))
       (is (= (last (:notes member)) "самовисування"))))
 
