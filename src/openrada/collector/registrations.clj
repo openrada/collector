@@ -19,27 +19,35 @@
     nil))
 
 
+(defn cleanup-online-url [url]
+  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_list")
+        s2 (str/replace s1 "vid=2&" "")]
+    s2))
 
 (defn build-online-regs-url [url date]
-  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_list")
-        s2 (str/replace s1 "vid=2&" "")
+  (let [url (cleanup-online-url url)
         start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
-      (str s2 "&startDate=" start-date "&endDate=" end-date)))
+      (str url "&startDate=" start-date "&endDate=" end-date)))
+
+(defn cleanup-offline-url [url]
+  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_w_list")
+        s2 (str/replace s1 "vid=3&" "")]
+    s2))
 
 (defn build-offline-regs-url [url date]
-  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_w_list")
-        s2 (str/replace s1 "vid=3&" "")
+  (let [url (cleanup-offline-url url)
         start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
-      (str s2 "&startDate=" start-date "&endDate=" end-date)))
+      (str url "&startDate=" start-date "&endDate=" end-date)))
 
 (defn parse-member-online-registrations
   "example page-url
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
   ([url start-date] (parse-member-online-registrations (build-online-regs-url url start-date)))
   ([page-url]
-    (let [page (utils/fetch-url page-url)
+    (let [url  (cleanup-online-url page-url)
+          page (utils/fetch-url url)
           rows (map #(html/text %) (html/select page [:ul.pd :li]))]
       (map (fn [row]
              (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
@@ -57,7 +65,8 @@
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
   ([url start-date] (parse-member-offline-registrations (build-offline-regs-url url start-date)))
   ([page-url]
-    (let [page (utils/fetch-url page-url)
+    (let [url  (cleanup-offline-url page-url)
+          page (utils/fetch-url url)
           rows (map #(html/text %) (html/select page [:ul.pd :li]))]
       (map (fn [row]
              (let [clean-row (filter #(not (str/blank? %)) (map str/trim(str/lines row)))]
