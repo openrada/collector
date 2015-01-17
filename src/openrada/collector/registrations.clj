@@ -20,24 +20,29 @@
 
 
 (defn cleanup-online-url [url]
-  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_list")
-        s2 (str/replace s1 "vid=2&" "")]
-    s2))
+  (if (str/contains? url "ns_dep_reg_list")
+    url
+    (let [s1 (str/replace url "ns_dep" "ns_dep_reg_list")
+          s2 (str/replace s1 "vid=2&" "")]
+      s2)))
+
+(cleanup-online-url
+ "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")
 
 (defn build-online-regs-url [url date]
-  (let [url (cleanup-online-url url)
-        start-date (utils/to-ua-date-str date)
+  (let [start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
       (str url "&startDate=" start-date "&endDate=" end-date)))
 
 (defn cleanup-offline-url [url]
-  (let [s1 (str/replace url "ns_dep" "ns_dep_reg_w_list")
-        s2 (str/replace s1 "vid=3&" "")]
-    s2))
+  (if (str/contains? url "ns_dep_reg_w_list")
+    url
+    (let [s1 (str/replace url "ns_dep" "ns_dep_reg_w_list")
+          s2 (str/replace s1 "vid=3&" "")]
+      s2)))
 
 (defn build-offline-regs-url [url date]
-  (let [url (cleanup-offline-url url)
-        start-date (utils/to-ua-date-str date)
+  (let [start-date (utils/to-ua-date-str date)
         end-date (utils/to-ua-date-str)]
       (str url "&startDate=" start-date "&endDate=" end-date)))
 

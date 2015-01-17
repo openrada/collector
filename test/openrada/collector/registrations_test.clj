@@ -19,7 +19,7 @@
   (testing "Parse Parasiuk - offline registrations"
     (let [registrations
           (registrations/parse-member-offline-registrations
-           "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")]
+           "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_w_list?startDate=27.11.2014&endDate=12.01.2015&kod=87")]
       (is (= (count registrations) 11))
       (is (= (:date (first registrations) "27.11.2014")))
       (is (= (:type (first registrations) "Ранкова реєстрація")))
@@ -51,7 +51,7 @@
 
   (testing "Parse Pysarenko online registration"
     (let [registrations
-          (registrations/parse-member-offline-registrations
+          (registrations/parse-member-online-registrations
            "http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep?vid=2&kod=129"
            (t/date-time 2014 11 27))]
       (is (= (count registrations) 16))
