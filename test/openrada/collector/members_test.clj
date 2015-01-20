@@ -52,7 +52,7 @@
   (testing "Parse All Links"
     (let [members (members/parse-members 8)
           abdullin (first members)]
-      (is (= (count members) 422))
+      (is (= (count members) 419))
       (is (= (:convocation abdullin) 8))
       (is (= (:link abdullin) "http://gapp.rada.gov.ua/mps/info/page/2524"))
       (is (= (:full_name abdullin) "Абдуллін Олександр Рафкатович"))

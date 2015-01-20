@@ -57,8 +57,6 @@
         end-date (utils/to-ua-date-str)]
       (str url "&startDate=" start-date "&endDate=" end-date)))
 
-(str/clean "23.12.2014    10:09:19")
-
 (defn parse-member-online-registrations
   "example page-url
   http://w1.c1.rada.gov.ua/pls/radan_gs09/ns_dep_reg_list?startDate=27.11.2014&endDate=12.01.2015&kod=87"
